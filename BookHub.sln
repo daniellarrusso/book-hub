@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookHub.App", "BookHub.App\BookHub.App.csproj", "{77058979-4A65-4BC7-95B2-8996EAA26A4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookHub.Tests", "BookHub.Tests\BookHub.Tests.csproj", "{4716D7D6-E067-46A5-A90B-0E767B629834}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookHub.Core", "BookHub.Core\BookHub.Core.csproj", "{E682CEF3-FC6B-4749-91E6-2830A5308F26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77058979-4A65-4BC7-95B2-8996EAA26A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77058979-4A65-4BC7-95B2-8996EAA26A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77058979-4A65-4BC7-95B2-8996EAA26A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77058979-4A65-4BC7-95B2-8996EAA26A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4716D7D6-E067-46A5-A90B-0E767B629834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4716D7D6-E067-46A5-A90B-0E767B629834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4716D7D6-E067-46A5-A90B-0E767B629834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4716D7D6-E067-46A5-A90B-0E767B629834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E682CEF3-FC6B-4749-91E6-2830A5308F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E682CEF3-FC6B-4749-91E6-2830A5308F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E682CEF3-FC6B-4749-91E6-2830A5308F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E682CEF3-FC6B-4749-91E6-2830A5308F26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
