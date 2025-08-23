@@ -5,7 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add DbContext (InMemory for now, swap for SQL Server/MySQL later)
 builder.Services.AddDbContext<BookContext>(options =>
-    options.UseInMemoryDatabase("BookHubDb"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Register repository
 builder.Services.AddScoped<IBookRepository, BookRepository>();
