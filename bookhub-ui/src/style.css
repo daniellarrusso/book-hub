@@ -9,7 +9,30 @@
 }
 
 
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #eee;
+}
 
+.logo {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  gap: .5rem;
+  padding: 1rem;
+}
+
+.logo i {
+  color: #ffd04b;
+}
+
+@media (max-width:768px) {
+  .hidden-xs-and-down {
+    display: none;
+  }
+}
 
 
 @media (prefers-color-scheme: light) {

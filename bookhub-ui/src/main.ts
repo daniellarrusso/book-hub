@@ -7,4 +7,3 @@ import './style.css';
 
 createApp(App).use(ElementPlus).mount('#app');
 
-createApp(App).mount('#app');
