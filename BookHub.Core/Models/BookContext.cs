@@ -1,3 +1,4 @@
+using BookHub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookHub.Core.Repositories;

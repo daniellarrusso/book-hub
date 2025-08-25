@@ -1,4 +1,5 @@
 using BookHub.Core.Repositories;
+using BookHub.Models;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -17,9 +18,16 @@ public class BooksController : ControllerBase
   /// </summary>
   /// <returns></returns>
   [HttpGet]
-  public async Task<IActionResult> GetBooks()
+  public async Task<ActionResult<PagedResult<Book>>> GetBooks(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string? search = null,
+        [FromQuery] string? sort = null)
   {
-    var books = await _bookRepository.GetBooks();
-    return Ok(books);
+    if (page <= 0 || pageSize <= 0)
+      return BadRequest("page and pageSize must be greater than zero.");
+
+    var result = await _bookRepository.GetBooks(page, pageSize, search, sort);
+    return Ok(result);
   }
 }

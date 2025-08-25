@@ -1,36 +1,55 @@
 using BookHub.Core.Repositories;
+using BookHub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookHub.Tests;
 
 public class BookRepositoryTest
 {
-  private async Task<BookContext> GetInMemoryDbContext()
+  private BookContext GetInMemoryDbContext()
   {
     var options = new DbContextOptionsBuilder<BookContext>()
-      .UseInMemoryDatabase(databaseName: "BookDb_" + System.Guid.NewGuid())
-      .Options;
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
 
     var context = new BookContext(options);
+
     context.Books.AddRange(
-      new Book { Id = 1, Title = "Clean Code" },
-      new Book { Id = 2, Title = "System Design" }
+        new Book { Id = 1, Title = "1984", Author = "George Orwell" },
+        new Book { Id = 2, Title = "Clean Code", Author = "Robert C. Martin" },
+        new Book { Id = 3, Title = "Brave New World", Author = "Aldous Huxley" }
     );
 
-    await context.SaveChangesAsync();
+    context.SaveChanges();
     return context;
 
   }
 
   [Fact]
-  public async Task ShouldReturnListOfBooksFromDatabase()
+  public async Task GetBooks_ReturnsPagedResults()
   {
-    var context = await GetInMemoryDbContext();
-    IBookRepository repo = new BookRepository(context);
+    using var context = GetInMemoryDbContext();
+    var repo = new BookRepository(context);
 
-    var books = await repo.GetBooks();
+    var result = await repo.GetBooks(page: 1, pageSize: 2, search: null, sort: null);
 
-    Assert.Equal(2, books.Count());
+    Assert.Equal(2, result.Items.Count());
+    Assert.Equal(4, result.TotalCount);
+    Assert.Equal(2, result.TotalPages);
+    Assert.Equal(1, result.Page);
+    Assert.Equal(2, result.PageSize);
+  }
+
+  [Fact]
+  public async Task GetBooks_AppliesSearchFilter()
+  {
+    using var context = GetInMemoryDbContext();
+    var repo = new BookRepository(context);
+
+    var result = await repo.GetBooks(page: 1, pageSize: 10, search: "code", sort: null);
+
+    Assert.Equal(2, result.Items.Count());
+    Assert.All(result.Items, b => Assert.Contains("code", b.Title.ToLower()));
   }
 
 }
