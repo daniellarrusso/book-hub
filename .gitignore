@@ -62,3 +62,4 @@ TestResults/
 ## Local environment
 .env
 .env.*
+node_modules
