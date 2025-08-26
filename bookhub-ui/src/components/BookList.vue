@@ -85,9 +85,16 @@
   }
 
   async function saveBook(updatedBook: Book) {
-  // await bookService.updateBook(updatedBook.id, updatedBook)
-    addEditModalVisible.value = false
-    fetchBooks()
+    try {
+      if (updatedBook.id) {
+        await bookService.updateBook(updatedBook);
+      } else {
+        await bookService.createBook(updatedBook);
+      }
+      fetchBooks()
+    } finally {
+      addEditModalVisible.value = false
+    }
   }
 
   const searchByTerm = useDebounceFn(() => {
