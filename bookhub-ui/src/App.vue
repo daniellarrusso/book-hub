@@ -12,8 +12,10 @@
             <el-icon style="margin-right: .5rem;"><IconMenu /></el-icon> Dashboard
           </el-button>
           <div class="user-avatar">
-            <img v-if="settings.avatar" alt="avatar" :src="settings.avatar" class="avatar" />
-            <i v-else class="el-icon-user" />
+            <router-link to="/settings">
+                <img v-if="settings.avatar" alt="avatar" :src="settings.avatar" class="avatar" />
+                <el-icon v-else><UserFilled /></el-icon>
+            </router-link>
           </div>
       </el-header>
 
@@ -38,7 +40,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { Menu as IconMenu } from '@element-plus/icons-vue'
+import { Menu as IconMenu, UserFilled } from '@element-plus/icons-vue'
 import AsideMenu from './components/AsideMenu.vue';
 import { useUserSettings } from './composables/useUserSettings'
 
