@@ -30,6 +30,17 @@ class BookService {
     }
   }
 
+  async updateBook(book: Book): Promise<Book> {
+    try {
+      const res = await httpClient.put<Book>(`http://localhost:5200/api/books/${book.id}`, book);
+      return res.data;
+    } catch (error) {
+      const handledError = this.handleError(error);
+      this.setError(handledError);
+      throw handledError;
+    }
+  }
+
   private setError(error: Error) {
     this.error.value = error.message;
   }
