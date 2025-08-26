@@ -15,6 +15,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowVueApp",
+        policy => policy
+            .WithOrigins("http://localhost:5173") // your Vue dev server URL
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
+});
+
+
 var app = builder.Build();
 
 // Seed data for demo
@@ -32,6 +43,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -39,5 +51,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+app.UseCors("AllowVueApp");
 
 app.Run();
