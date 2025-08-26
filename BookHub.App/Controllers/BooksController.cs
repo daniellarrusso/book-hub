@@ -55,7 +55,7 @@ public class BooksController : ControllerBase
   [HttpPut("{id}")]
   public async Task<IActionResult> Update(int id, Book book)
   {
-    if (id != book.Id) return BadRequest("ID mismatch");
+    if (id != book.Id) return BadRequest("Book must have a ID");
     await _bookRepository.Update(book);
     return NoContent();
   }
