@@ -6,6 +6,7 @@ namespace BookHub.Core.Repositories;
 public class BookRepository : IBookRepository
 {
     private readonly BookContext _context;
+    private const int MaxBooks = 25;
 
     public BookRepository(BookContext context)
     {
@@ -50,6 +51,40 @@ public class BookRepository : IBookRepository
             TotalCount = totalCount,
             TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
         };
+    }
+
+    public async Task<Book?> GetById(int id) =>
+      await _context.Books.FindAsync(id);
+
+    public async Task<Book> Add(Book book)
+    {
+        if (_context.Books.Count() >= MaxBooks)
+            throw new InvalidOperationException("Maximum of 25 books reached.");
+
+        if (book.Rating is < 1 or > 5)
+            throw new ArgumentException("Rating must be between 1 and 5.");
+
+        if (book.Comments.Contains("horrible", StringComparison.OrdinalIgnoreCase))
+            throw new ArgumentException("Comments cannot contain the word 'horrible'.");
+
+        _context.Books.Add(book);
+        await _context.SaveChangesAsync();
+        return book;
+    }
+
+    public async Task Update(Book book)
+    {
+        _context.Entry(book).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task Delete(int id)
+    {
+        var book = await _context.Books.FindAsync(id);
+        if (book is null) return;
+
+        _context.Books.Remove(book);
+        await _context.SaveChangesAsync();
     }
 
 
