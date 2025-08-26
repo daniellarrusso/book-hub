@@ -30,6 +30,18 @@ class BookService {
     }
   }
 
+  async getBookById(id: number): Promise<Book> {
+    this.clearError();
+    try {
+      const res = await httpClient.get<Book>(`${this.endpoint}/${id}`);
+      return res.data;
+    } catch (error) {
+      const handledError = this.handleError(error);
+      this.setError(handledError);
+      throw handledError;
+    }
+  }
+
   async createBook(book: Book): Promise<Book> {
     this.clearError();
     try {
@@ -38,7 +50,6 @@ class BookService {
     } catch (error) {
       const handledError = this.handleError(error);
       this.setError(handledError);
-      console.log(error);
       throw handledError;
     }
   }

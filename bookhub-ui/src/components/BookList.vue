@@ -61,17 +61,19 @@
   import { useBooks } from '../composables/useBooks';
   import BookCardList from './BookCardList.vue';
   import BookEditForm from './BookEditForm.vue';
+import { useRouter } from 'vue-router';
   
 
   const { response, search, sort, isLoading, fetchBooks } = useBooks()
   const error = computed(() => bookService.error.value)
   const isGridView = ref(false);
   const selectedBook = ref<Book | null>(null);
+  const router = useRouter();
 
   const addEditModalVisible = ref(false);
   const openEdit = (book: Book) => { selectedBook.value = book;  addEditModalVisible.value = true; }
   const openDelete = (book: Book) => { confirmDeleteDialog(book.id!) }
-  const openView = (book: Book) => console.log('view', book)
+  const openView = (book: Book) => { if (!book.id) return; router.push({ name: 'Book', params: { id: book.id } }); }
 
   watch(error, (newError) => {
     if (newError) {
