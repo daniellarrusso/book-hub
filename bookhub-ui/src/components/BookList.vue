@@ -23,10 +23,33 @@
   </el-row>
   <el-skeleton v-if="isLoading" :rows="25" animated />
   <div v-if="isGridView">GridView</div>
-  <div v-else>ListView</div>
-  <ul>
-    <li v-for="book in response?.items">{{ book.title }}</li>
-  </ul>
+  <div v-else v-for="book in response?.items" class="flex-container card">
+    <div class="left-column" style="display: flex; gap: 10px; align-items: center;">
+      <el-image
+        style="width: 75px; object-fit: cover; border-radius: 8px;"
+        :src="book.coverImageUrl"
+        fit="cover"
+        alt="Book Cover"
+        lazy
+      />
+      <div class="book-details">
+        {{ book.title }}
+        <div> {{ book.author }}</div>
+        <div> {{ book.isbn }}</div>
+      </div>
+      <div v-if="book.hasNotes" style="align-self: end; color: green;" class="has-notes">
+           <el-icon style="margin-right: .1rem;"><ChatLineSquare /></el-icon> Has notes
+      </div>
+    </div>
+    <div class="right-column">  
+      <div style="display: flex; align-items: center;">
+         <el-rate style="margin-right: 1rem;" disabled v-model="book.rating"  show-score score-template="{value}/5" />
+         <el-button type="primary" size="small" :icon="Edit" @click="selectedBook = book; addEditModalVisible = true;"  />
+         <el-button type="primary" size="small" :icon="View" />
+         <el-button type="primary" size="small" :icon="Delete" @click="selectedBook = book; deleteDialogVisible = true;" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -37,7 +60,8 @@
   import { ElMessage } from 'element-plus';
   import { useDebounceFn } from '@vueuse/core';
   import GridToggle from './GridToggle.vue';
-
+  import { Edit, View, Delete, ChatLineSquare } from '@element-plus/icons-vue'
+  
   const response = ref<PagedResponse<Book>>()
   const search = ref<string>('');
   const sort = ref<string>('title');
@@ -46,6 +70,9 @@
   const isLoading = computed(() => bookService.isLoading.value)
   const error = computed(() => bookService.error.value)
   const isGridView = ref(false);
+  const selectedBook = ref<Book | null>(null);
+  const deleteDialogVisible = ref(false);
+  const addEditModalVisible = ref(false);
 
   watch(error, (newError) => {
     if (newError) {
@@ -77,5 +104,10 @@
     justify-content: space-between; 
     margin-bottom: 1rem;
     align-items: center;
+  }
+  .flex-container.card {
+    padding: .75rem;
+    background-color: #fff;
+    border-radius: 10px;
   }
 </style>
