@@ -74,6 +74,9 @@ public class BookRepository : IBookRepository
 
     public async Task Update(Book book)
     {
+        if (book.Comments.Contains("horrible", StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Comments cannot contain the word 'horrible'.");
+
         _context.Entry(book).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }

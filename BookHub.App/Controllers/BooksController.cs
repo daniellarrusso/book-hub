@@ -56,7 +56,15 @@ public class BooksController : ControllerBase
   public async Task<IActionResult> Update(int id, Book book)
   {
     if (id != book.Id) return BadRequest("Book must have a ID");
-    await _bookRepository.Update(book);
+    try
+    {
+      await _bookRepository.Update(book);
+    }
+    catch (Exception ex)
+    {
+      return BadRequest(ex.Message);
+    }
+
     return NoContent();
   }
 
