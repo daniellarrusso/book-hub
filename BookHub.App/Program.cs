@@ -1,4 +1,5 @@
 using BookHub.Core.Repositories;
+using BookHub.Data;
 using BookHub.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,21 +29,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Seed data for demo
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BookContext>();
-    if (!context.Books.Any())
-    {
-        context.Books.AddRange(
-        new Book { Id = 1, Title = "1984", Author = "George Orwell" },
-        new Book { Id = 2, Title = "Clean Code", Author = "Robert C. Martin" },
-        new Book { Id = 3, Title = "Brave New World", Author = "Aldous Huxley" }
-        );
-        context.SaveChanges();
-    }
+    context.Database.EnsureCreated(); // Creates SQLite DB if it doesn't exist
+    DataSeeder.Seed(context);
 }
-
 
 if (app.Environment.IsDevelopment())
 {
