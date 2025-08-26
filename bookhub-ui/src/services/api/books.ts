@@ -55,6 +55,17 @@ class BookService {
     }
   }
 
+  async deleteBook(bookId: number) {
+    this.clearError();
+    try {
+      await httpClient.delete(`${this.endpoint}/${bookId}`);
+    } catch (error) {
+      const handledError = this.handleError(error);
+      this.setError(handledError);
+      throw handledError;
+    }
+  }
+
   private setError(error: Error) {
     this.error.value = error.message;
   }
