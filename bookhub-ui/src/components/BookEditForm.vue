@@ -37,14 +37,23 @@ const localBook = ref<Book>({
   author: '',
   isbn: '',
   rating: 0,
-  comments: ''
-} as Book)
+  comments: '',
+  ...props.book 
+} as Book);
+
 
 watch(
   () => props.book,
-  val => {
-    localBook.value = val ? { ...val } : { title: '', author: '', isbn: '', rating: 0, comments: '' } as Book
+  (val) => {
+    localBook.value = {
+      title: '',
+      author: '',
+      isbn: '',
+      rating: 1,
+      comments: '',
+      ...val  
+    } as Book;
   },
   { immediate: true }
-)
+);
 </script>
