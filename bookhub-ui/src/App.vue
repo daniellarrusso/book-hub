@@ -7,10 +7,14 @@
     </el-aside>
 
     <el-container>
-      <el-header style="padding-top: 1rem;">
+      <el-header style="display: flex; align-items: center; justify-content: space-between;">
            <el-button text @click="drawer = true">
             <el-icon style="margin-right: .5rem;"><IconMenu /></el-icon> Dashboard
           </el-button>
+          <div class="user-avatar">
+            <img v-if="settings.avatar" alt="avatar" :src="settings.avatar" class="avatar" />
+            <i v-else class="el-icon-user" />
+          </div>
       </el-header>
 
       <el-drawer 
@@ -36,8 +40,10 @@
 import { ref } from 'vue';
 import { Menu as IconMenu } from '@element-plus/icons-vue'
 import AsideMenu from './components/AsideMenu.vue';
+import { useUserSettings } from './composables/useUserSettings'
 
 const drawer = ref(false);
+const { settings } = useUserSettings()
 const appName = 'BookHub'
 </script>
 
@@ -47,6 +53,12 @@ const appName = 'BookHub'
   margin: 0 auto;
 }
 
+.user-avatar .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 @media (max-width:768px) {
   .hidden-xs-and-down {
