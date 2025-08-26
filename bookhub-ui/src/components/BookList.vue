@@ -55,7 +55,7 @@
   import { computed, onMounted, ref, watch } from 'vue';
   import type { Book } from '../types/book';
   import bookService from '../services/api/books';
-  import { ElMessage } from 'element-plus';
+  import { ElMessage, ElMessageBox } from 'element-plus';
   import { useDebounceFn } from '@vueuse/core';
   import GridToggle from './GridToggle.vue';
   import { useBooks } from '../composables/useBooks';
@@ -67,10 +67,10 @@
   const error = computed(() => bookService.error.value)
   const isGridView = ref(false);
   const selectedBook = ref<Book | null>(null);
-  const deleteDialogVisible = ref(false);
+
   const addEditModalVisible = ref(false);
   const openEdit = (book: Book) => { selectedBook.value = book;  addEditModalVisible.value = true; }
-  const openDelete = (book: Book) => console.log('delete', book)
+  const openDelete = (book: Book) => { confirmDeleteDialog(book.id!) }
   const openView = (book: Book) => console.log('view', book)
 
   watch(error, (newError) => {
@@ -78,6 +78,30 @@
       ElMessage.error(`Sorry, we couldn't load your books. ${newError}`)
     }
   })
+
+  const confirmDeleteDialog = async (bookId: number) => {
+      try {
+      await ElMessageBox.confirm(
+        `Are you sure you want to delete a book/review?`,
+        'Delete Book',
+        {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }
+      );
+
+      await bookService.deleteBook(bookId);
+      ElMessage.success('Book deleted successfully');
+      fetchBooks(); 
+    } catch (err) {
+      if (err === 'cancel') {
+
+        return;
+      }
+      ElMessage.error('Failed to delete book');
+    }
+  }
 
   function toggleSort() {
     sort.value = sort.value === 'desc'? 'asc' : 'desc';
