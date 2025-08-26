@@ -14,7 +14,7 @@
     <p><strong>Comments:</strong> {{ book.comments || 'No comments' }}</p>
     <el-image
       v-if="book.coverImageUrl"
-      :src="book.coverImageUrl"
+      :src="`${book.coverImageUrl}/200/200`"
       style="width: 200px; border-radius: 8px"
       fit="cover"
       alt="Book Cover"

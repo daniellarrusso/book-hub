@@ -17,11 +17,11 @@ public static class DataSeeder
       {
         Title = $"Sample Book {i}",
         Author = $"Author {i}",
-        ISBN = $"ISBN-{1000 + i}",
+        ISBN = $"{1000 + i}",
         Rating = i % 5 + 1, // 1 to 5
         Comments = $"This is comment for book {i}",
         NoteStatus = (i % 3 == 0) ? "Reviewed" : "Draft",
-        CoverImageUrl = $"https://picsum.photos/seed/{i}/75"
+        CoverImageUrl = $"https://picsum.photos/seed/{i}"
       });
     }
 

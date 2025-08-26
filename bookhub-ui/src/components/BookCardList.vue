@@ -3,7 +3,7 @@
     <div class="left-column" style="display: flex; gap: 10px; align-items: center;">
       <el-image
         style="width: 75px; object-fit: cover; border-radius: 8px;"
-       
+        :src="`${book.coverImageUrl}/75`"
         fit="cover"
         alt="Book Cover"
         lazy

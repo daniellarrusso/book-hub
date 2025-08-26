@@ -57,11 +57,11 @@
   import bookService from '../services/api/books';
   import { ElMessage, ElMessageBox } from 'element-plus';
   import { useDebounceFn } from '@vueuse/core';
-  import GridToggle from './GridToggle.vue';
+  import GridToggle from '../components/GridToggle.vue';
   import { useBooks } from '../composables/useBooks';
-  import BookCardList from './BookCardList.vue';
-  import BookEditForm from './BookEditForm.vue';
-import { useRouter } from 'vue-router';
+  import BookCardList from '../components/BookCardList.vue';
+  import BookEditForm from '../components/BookEditForm.vue';
+  import { useRouter } from 'vue-router';
   
 
   const { response, search, sort, isLoading, fetchBooks } = useBooks()
