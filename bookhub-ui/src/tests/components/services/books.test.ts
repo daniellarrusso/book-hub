@@ -27,7 +27,18 @@ describe('BookService', () => {
     const result = await bookService.getBooks();
 
     expect(result).toEqual(mockBooks);
-    expect(httpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, page: 1 } });
+    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: undefined, page: 1, pageSize: 10 } });
+    expect(bookService.error.value).toBeNull();
+    expect(bookService.isLoading.value).toBe(false);
+  });
+
+  it('should fetch with sort parameter set successfully', async () => {
+    mockedHttpClient.get.mockResolvedValueOnce({ data: mockBooks });
+
+    const result = await bookService.getBooks(1, '', 'desc');
+
+    expect(result).toEqual(mockBooks);
+    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: 'desc', page: 1, pageSize: 10 } });
     expect(bookService.error.value).toBeNull();
     expect(bookService.isLoading.value).toBe(false);
   });
@@ -46,10 +57,10 @@ describe('BookService', () => {
 
     mockedHttpClient.get.mockResolvedValueOnce({ data: mockPage2 });
 
-    const result = await bookService.getBooks('', 2); // page 2
+    const result = await bookService.getBooks(2); // page 2
 
     expect(result).toEqual(mockPage2);
-    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, page: 2 } });
+    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: undefined, page: 2, pageSize: 10 } });
     expect(bookService.isLoading.value).toBe(false);
     expect(bookService.error.value).toBeNull();
   });
@@ -69,7 +80,7 @@ describe('BookService', () => {
   it('should handle network error', async () => {
     mockedHttpClient.get.mockRejectedValueOnce({ request: {} });
 
-    await expect(bookService.getBooks('test')).rejects.toThrow('Network error - please check your connection');
+    await expect(bookService.getBooks()).rejects.toThrow('Network error - please check your connection');
     expect(bookService.error.value).toBe('Network error - please check your connection');
     expect(bookService.isLoading.value).toBe(false);
   });

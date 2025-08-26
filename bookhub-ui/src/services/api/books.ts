@@ -9,7 +9,7 @@ class BookService {
   isLoading = ref(false);
   error = ref<string | null>(null);
 
-  async getBooks(search: string | undefined = undefined, page: number = 1): Promise<PagedResponse<Book>> {
+  async getBooks(page: number = 1, search: string | undefined = undefined, sort: string | undefined = undefined): Promise<PagedResponse<Book>> {
     this.isLoading.value = true;
     this.clearError();
     search = search ? search : undefined;
@@ -17,7 +17,7 @@ class BookService {
     try {
       const response: AxiosResponse<PagedResponse<Book>> = await httpClient.get(
         `${this.endpoint}`, {
-        params: { search, page }
+        params: { page, pageSize: 10, search, sort }
       }
       );
       return response.data;

@@ -9,8 +9,13 @@
     </div>
   </section>
    <el-row :gutter="10" style="margin-bottom: 1rem;">
-    <el-col :span="24">
+    <el-col :span="16">
       <el-input v-model="search" @input="searchByTerm" placeholder="Search by title or author" clearable />
+    </el-col>
+      <el-col :span="4">
+      <el-select v-model="sort" placeholder="Sort by Title">
+        <el-option label="Title" value="title" @click="toggleSort" />
+      </el-select>
     </el-col>
   </el-row>
   <el-skeleton v-if="isLoading" :rows="25" animated />
@@ -28,7 +33,10 @@
   import { useDebounceFn } from '@vueuse/core';
 
   const response = ref<PagedResponse<Book>>()
-  const search = ref('');
+  const search = ref<string>('');
+  const sort = ref<string>('title');
+  const sortOrder = ref<'asc' | 'desc'>('asc');
+  const ascending = ref(true);  
   const isLoading = computed(() => bookService.isLoading.value)
   const error = computed(() => bookService.error.value)
 
@@ -38,8 +46,14 @@
     }
   })
 
+  function toggleSort() {
+    ascending.value = !ascending.value; // flip boolean
+    sortOrder.value = ascending.value ? 'asc' : 'desc';
+    fetchBooks();
+  }
+
   const fetchBooks = async (page: number = 1) => {
-    response.value = await bookService.getBooks(search.value, page)
+    response.value = await bookService.getBooks(page, search.value, sortOrder.value)
   } 
 
   const searchByTerm = useDebounceFn(() => {
