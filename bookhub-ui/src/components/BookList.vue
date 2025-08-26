@@ -2,7 +2,7 @@
   <section class="flex-container">
     <div> 
       <h2>My Books</h2>
-      <small>Manage your personal book collection</small>
+      <small>Manage your book collection and discover new reads</small>
     </div>
     <div>
       <el-button type="primary" >Add Book</el-button>
