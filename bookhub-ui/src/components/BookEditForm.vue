@@ -16,8 +16,10 @@
         <el-input v-model="localBook.comments" type="textarea" />
       </el-form-item>
     </el-form>
+    <div style="display: flex; justify-content: end;">
       <el-button @click="$emit('showModal', false)">Cancel</el-button>
       <el-button type="primary" @click="$emit('save', localBook)">Save</el-button>
+    </div>
 </template>
 
 <script setup lang="ts">
