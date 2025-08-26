@@ -1,13 +1,13 @@
 <template>
     <el-form :model="localBook" label-width="100px">
       <el-form-item label="Title">
-        <el-input v-model="localBook.title" :disabled="!!book"></el-input>
+        <el-input v-model="localBook.title" :disabled="!!localBook.id"></el-input>
       </el-form-item>
       <el-form-item label="Author">
-        <el-input v-model="localBook.author" :disabled="!!book"></el-input>
+        <el-input v-model="localBook.author" :disabled="!!localBook.id"></el-input>
       </el-form-item>
       <el-form-item label="ISBN">
-        <el-input v-model="localBook.isbn" :disabled="!!book"></el-input>
+        <el-input v-model="localBook.isbn" :disabled="!!localBook.id"></el-input>
       </el-form-item>
       <el-form-item label="Rating">
         <el-rate v-model="localBook.rating" />

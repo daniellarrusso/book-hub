@@ -5,7 +5,7 @@
       <small>Manage your book collection and discover new reads</small>
     </div>
     <div>
-      <el-button type="primary" >Add Book</el-button>
+      <el-button type="primary" @click="openEdit" >Add Book</el-button>
     </div>
   </section>
    <el-row :gutter="10" style="margin-bottom: 1rem;">
@@ -36,7 +36,7 @@
 
   <el-dialog
     v-model="addEditModalVisible"
-    title="Edit Book"
+    title="Save Book"
     width="500px">
     <BookEditForm :book="selectedBook" @save="saveBook" @show-modal="(event) => addEditModalVisible = event" />
   </el-dialog>
@@ -69,7 +69,7 @@
   const selectedBook = ref<Book | null>(null);
   const deleteDialogVisible = ref(false);
   const addEditModalVisible = ref(false);
-  const openEdit = (book: Book) => { selectedBook.value = book;  addEditModalVisible.value = true; console.log('something') }
+  const openEdit = (book: Book) => { selectedBook.value = book;  addEditModalVisible.value = true; }
   const openDelete = (book: Book) => console.log('delete', book)
   const openView = (book: Book) => console.log('view', book)
 
