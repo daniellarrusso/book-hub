@@ -8,6 +8,11 @@
       <el-button type="primary" >Add Book</el-button>
     </div>
   </section>
+   <el-row :gutter="10" style="margin-bottom: 1rem;">
+    <el-col :span="24">
+      <el-input v-model="search" @input="searchByTerm" placeholder="Search by title or author" clearable />
+    </el-col>
+  </el-row>
   <el-skeleton v-if="isLoading" :rows="25" animated />
   <ul>
     <li v-for="book in response?.items">{{ book.title }}</li>
@@ -20,21 +25,26 @@
   import type { Book } from '../types/book';
   import bookService from '../services/api/books';
   import { ElMessage } from 'element-plus';
+  import { useDebounceFn } from '@vueuse/core';
 
   const response = ref<PagedResponse<Book>>()
   const search = ref('');
   const isLoading = computed(() => bookService.isLoading.value)
   const error = computed(() => bookService.error.value)
 
-    watch(error, (newError) => {
-      if (newError) {
-        ElMessage.error(`Sorry, we couldn't load your books. ${newError}`)
-      }
-    })
+  watch(error, (newError) => {
+    if (newError) {
+      ElMessage.error(`Sorry, we couldn't load your books. ${newError}`)
+    }
+  })
 
   const fetchBooks = async (page: number = 1) => {
     response.value = await bookService.getBooks(search.value, page)
   } 
+
+  const searchByTerm = useDebounceFn(() => {
+      fetchBooks()
+  }, 300)
 
   onMounted(fetchBooks)
 
