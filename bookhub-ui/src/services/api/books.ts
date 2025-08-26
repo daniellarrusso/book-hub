@@ -31,6 +31,7 @@ class BookService {
   }
 
   async createBook(book: Book): Promise<Book> {
+    this.clearError();
     try {
       const res = await httpClient.post<Book>(`${this.endpoint}`, book);
       return res.data;
@@ -42,6 +43,7 @@ class BookService {
   }
 
   async updateBook(book: Book): Promise<Book> {
+    this.clearError();
     try {
       const res = await httpClient.put<Book>(`${this.endpoint}${book.id}`, book);
       return res.data;
