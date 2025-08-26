@@ -31,7 +31,7 @@ public class BookRepository : IBookRepository
         // Sort by title
         query = sort?.ToLower() switch
         {
-            "title_desc" => query.OrderByDescending(b => b.Title),
+            "desc" => query.OrderByDescending(b => b.Title),
             _ => query.OrderBy(b => b.Title) // default asc
         };
 
