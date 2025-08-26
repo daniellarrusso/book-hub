@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import bookService from '../../../services/api/books';
-import httpClient from '../../../services/http';
 import type { Book } from '../../../types/book';
 import type { PagedResponse } from '../../../types/paged-response';
 import { mockedHttpClient } from '../../../setupTests';
@@ -24,7 +23,7 @@ describe('BookService', () => {
   it('should fetch books successfully', async () => {
     mockedHttpClient.get.mockResolvedValueOnce({ data: mockBooks });
 
-    const result = await bookService.getBooks();
+    const result = await bookService.getBooks(1, 10);
 
     expect(result).toEqual(mockBooks);
     expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: undefined, page: 1, pageSize: 10 } });
@@ -35,7 +34,7 @@ describe('BookService', () => {
   it('should fetch with sort parameter set successfully', async () => {
     mockedHttpClient.get.mockResolvedValueOnce({ data: mockBooks });
 
-    const result = await bookService.getBooks(1, '', 'desc');
+    const result = await bookService.getBooks(1, 10, '', 'desc');
 
     expect(result).toEqual(mockBooks);
     expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: 'desc', page: 1, pageSize: 10 } });
@@ -57,10 +56,10 @@ describe('BookService', () => {
 
     mockedHttpClient.get.mockResolvedValueOnce({ data: mockPage2 });
 
-    const result = await bookService.getBooks(2); // page 2
+    const result = await bookService.getBooks(1, 25); // page 2
 
     expect(result).toEqual(mockPage2);
-    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: undefined, page: 2, pageSize: 10 } });
+    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: undefined, page: 1, pageSize: 25 } });
     expect(bookService.isLoading.value).toBe(false);
     expect(bookService.error.value).toBeNull();
   });
@@ -72,7 +71,7 @@ describe('BookService', () => {
       response: { status: 500, data: { message: 'Server crashed' } }
     });
 
-    await expect(bookService.getBooks()).rejects.toThrow('Server crashed');
+    await expect(bookService.getBooks(1, 10)).rejects.toThrow('Server crashed');
     expect(bookService.error.value).toBe('Server crashed');
     expect(bookService.isLoading.value).toBe(false);
   });
@@ -80,7 +79,7 @@ describe('BookService', () => {
   it('should handle network error', async () => {
     mockedHttpClient.get.mockRejectedValueOnce({ request: {} });
 
-    await expect(bookService.getBooks()).rejects.toThrow('Network error - please check your connection');
+    await expect(bookService.getBooks(1, 10)).rejects.toThrow('Network error - please check your connection');
     expect(bookService.error.value).toBe('Network error - please check your connection');
     expect(bookService.isLoading.value).toBe(false);
   });
@@ -88,7 +87,7 @@ describe('BookService', () => {
   it('should handle unexpected error', async () => {
     mockedHttpClient.get.mockRejectedValueOnce(new Error('Boom!'));
 
-    await expect(bookService.getBooks()).rejects.toThrow('Boom!');
+    await expect(bookService.getBooks(1, 10)).rejects.toThrow('Boom!');
     expect(bookService.error.value).toBe('Boom!');
     expect(bookService.isLoading.value).toBe(false);
   });

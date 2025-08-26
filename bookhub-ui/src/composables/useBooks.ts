@@ -11,8 +11,8 @@ export function useBooks() {
   const isLoading = computed(() => bookService.isLoading.value);
   const error = computed(() => bookService.error.value);
 
-  const fetchBooks = async (page = 1) => {
-    response.value = await bookService.getBooks(page, search.value, sort.value);
+  const fetchBooks = async (page = 1, pageSize = 10) => {
+    response.value = await bookService.getBooks(page, pageSize, search.value, sort.value);
   };
 
   watch([search, sort], () => fetchBooks());
