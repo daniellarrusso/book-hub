@@ -1,0 +1,56 @@
+import type { AxiosResponse } from 'axios';
+import type { Book } from '../../types/book';
+import type { PagedResponse } from '../../types/paged-response';
+import httpClient from '../http';
+import { ref } from 'vue';
+
+class BookService {
+  private readonly endpoint = '/books';
+  isLoading = ref(false);
+  error = ref<string | null>(null);
+
+  async getBooks(search: string | undefined = undefined, page: number = 1): Promise<PagedResponse<Book>> {
+    this.isLoading.value = true;
+    this.clearError();
+    search = search ? search : undefined;
+
+    try {
+      const response: AxiosResponse<PagedResponse<Book>> = await httpClient.get(
+        `${this.endpoint}`, {
+        params: { search, page }
+      }
+      );
+      return response.data;
+    } catch (error) {
+      const handledError = this.handleError(error);
+      this.setError(handledError);
+      throw handledError;
+    } finally {
+      this.isLoading.value = false;
+    }
+  }
+
+  private setError(error: Error) {
+    this.error.value = error.message;
+  }
+
+  private clearError() {
+    this.error.value = null;
+  }
+
+  private handleError(error: any): Error {
+    if (error.response) {
+      //  server response
+      const { status, data } = error.response;
+      return new Error(data?.message || `HTTP Error ${status}`);
+    } else if (error.request) {
+      return new Error('Network error - please check your connection');
+    } else {
+      return new Error(error.message || 'An unexpected error occurred');
+    }
+  }
+
+}
+
+export const bookService = new BookService();
+export default bookService;
