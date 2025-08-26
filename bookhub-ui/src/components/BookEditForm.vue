@@ -21,6 +21,10 @@
       <el-rate v-model="localBook.rating" :max="5" />
     </el-form-item>
 
+    <el-form-item v-if="!localBook.id" label="Image Url" prop="rating">
+      <el-input v-model="localBook.coverImageUrl" />
+    </el-form-item>
+
     <el-form-item label="Comments" prop="comments">
       <el-input v-model="localBook.comments" type="textarea" />
     </el-form-item>
@@ -48,6 +52,7 @@ const localBook = ref<Book>({
   isbn: '',
   rating: 1,
   comments: '',
+  coverImageUrl: '',
   ...props.book
 } as Book);
 
@@ -60,11 +65,14 @@ watch(
       isbn: '',
       rating: 1,
       comments: '',
+      coverImageUrl: 'https://picsum.photos/seed/',
       ...val
     } as Book;
   },
   { immediate: true }
 );
+
+
 
 // Validation rules
 const rules = {
@@ -87,10 +95,16 @@ const bookFormRef = ref();
 function handleSave() {
   bookFormRef.value.validate((valid: boolean) => {
     if (valid) {
-      emit('save', localBook.value);
+      emit('save', {...localBook.value, coverImageUrl: appendRandomImageUrl() });
     } else {
       return false;
     }
   });
+
+  function appendRandomImageUrl(min = 25, max = 100): string {
+    const { coverImageUrl } = localBook.value; 
+    if (!coverImageUrl) return '';
+    return coverImageUrl + Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 }
 </script>
