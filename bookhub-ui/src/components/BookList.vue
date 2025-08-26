@@ -40,6 +40,15 @@
     width="500px">
     <BookEditForm :book="selectedBook" @save="saveBook" @show-modal="(event) => addEditModalVisible = event" />
   </el-dialog>
+
+  <el-pagination v-if="response"
+      v-model:current-page="response.page"
+      :page-size="response.pageSize"
+      :total="response.totalCount"
+      layout="prev, pager, next"
+      class="mt-3"
+      @current-change="fetchBooks"
+    />
 </template>
 
 <script setup lang="ts">
