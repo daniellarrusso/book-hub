@@ -45,7 +45,7 @@ class BookService {
   async updateBook(book: Book): Promise<Book> {
     this.clearError();
     try {
-      const res = await httpClient.put<Book>(`${this.endpoint}${book.id}`, book);
+      const res = await httpClient.put<Book>(`${this.endpoint}/${book.id}`, book);
       return res.data;
     } catch (error) {
       const handledError = this.handleError(error);
