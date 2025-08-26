@@ -24,7 +24,7 @@
 
       <el-main>
         <div class="container">
-          <BookList />
+        <RouterView />
         </div>
       </el-main>
 
@@ -34,7 +34,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import BookList from './components/BookList.vue';
 import { Menu as IconMenu } from '@element-plus/icons-vue'
 import AsideMenu from './components/AsideMenu.vue';
 
