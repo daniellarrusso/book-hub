@@ -9,15 +9,15 @@
     </div>
   </section>
    <el-row :gutter="10" style="margin-bottom: 1rem;">
-    <el-col :span="18">
+    <el-col :lg="18" :md="16" :sm="8">
       <el-input v-model="search" @input="searchByTerm" placeholder="Search by title or author" clearable />
     </el-col>
-      <el-col :span="4">
+      <el-col :lg="3" :md="4" :sm="8">
       <el-select valiue="Sort" placeholder="Sort by Title">
         <el-option label="Title" value="title" @click="toggleSort" />
       </el-select>
     </el-col>
-    <el-col :span="2">
+    <el-col :lg="3" :md="4" :sm="8">
       <GridToggle @show-grid="val => isGridView = val" />
     </el-col>
   </el-row>
