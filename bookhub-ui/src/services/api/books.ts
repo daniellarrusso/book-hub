@@ -30,9 +30,20 @@ class BookService {
     }
   }
 
+  async createBook(book: Book): Promise<Book> {
+    try {
+      const res = await httpClient.post<Book>(`${this.endpoint}`, book);
+      return res.data;
+    } catch (error) {
+      const handledError = this.handleError(error);
+      this.setError(handledError);
+      throw handledError;
+    }
+  }
+
   async updateBook(book: Book): Promise<Book> {
     try {
-      const res = await httpClient.put<Book>(`http://localhost:5200/api/books/${book.id}`, book);
+      const res = await httpClient.put<Book>(`${this.endpoint}${book.id}`, book);
       return res.data;
     } catch (error) {
       const handledError = this.handleError(error);
