@@ -14,7 +14,7 @@ public class BooksController : ControllerBase
   }
 
   /// <summary>
-  /// Get a List of Books
+  /// Get a paginated response of books
   /// </summary>
   /// <returns></returns>
   [HttpGet]
