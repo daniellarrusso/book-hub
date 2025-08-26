@@ -38,6 +38,7 @@ class BookService {
     } catch (error) {
       const handledError = this.handleError(error);
       this.setError(handledError);
+      console.log(error);
       throw handledError;
     }
   }
@@ -66,7 +67,7 @@ class BookService {
     if (error.response) {
       //  server response
       const { status, data } = error.response;
-      return new Error(data?.message || `HTTP Error ${status}`);
+      return new Error(data?.message || `HTTP Error ${status} ${data}`);
     } else if (error.request) {
       return new Error('Network error - please check your connection');
     } else {
@@ -77,4 +78,4 @@ class BookService {
 }
 
 export const bookService = new BookService();
-export default bookService;
+export default bookService;;
