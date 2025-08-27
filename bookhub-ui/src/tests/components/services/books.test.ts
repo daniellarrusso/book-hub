@@ -56,10 +56,10 @@ describe('BookService', () => {
 
     mockedHttpClient.get.mockResolvedValueOnce({ data: mockPage2 });
 
-    const result = await bookService.getBooks(1, 25); // page 2
+    const result = await bookService.getBooks(2, 10); // page 2
 
     expect(result).toEqual(mockPage2);
-    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: undefined, page: 1, pageSize: 25 } });
+    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', { params: { search: undefined, sort: undefined, page: 2, pageSize: 10 } });
     expect(bookService.isLoading.value).toBe(false);
     expect(bookService.error.value).toBeNull();
   });
@@ -91,4 +91,70 @@ describe('BookService', () => {
     expect(bookService.error.value).toBe('Boom!');
     expect(bookService.isLoading.value).toBe(false);
   });
+
+  it('should fetch with search query', async () => {
+    mockedHttpClient.get.mockResolvedValueOnce({ data: mockBooks });
+
+    const result = await bookService.getBooks(1, 10, 'orwell');
+
+    expect(result).toEqual(mockBooks);
+    expect(mockedHttpClient.get).toHaveBeenCalledWith('/books', {
+      params: { search: 'orwell', sort: undefined, page: 1, pageSize: 10 }
+    });
+  });
+
+  describe("createBook", () => {
+    it("should POST a book and return the created book", async () => {
+      const book: Book = { id: 1, title: "Test", author: "Nathan" } as Book;
+      mockedHttpClient.post.mockResolvedValue({ data: book });
+
+      const result = await bookService.createBook(book);
+
+      expect(mockedHttpClient.post).toHaveBeenCalledWith("/books", book);
+      expect(result).toEqual(book);
+    });
+
+    it("should handle errors", async () => {
+      mockedHttpClient.post.mockRejectedValue(new Error("fail"));
+
+      await expect(bookService.createBook({ id: 1, title: "Err", author: "A" } as Book))
+        .rejects.toThrow("fail");
+    });
+  });
+
+  describe("updateBook", () => {
+    it("should PUT and return updated book", async () => {
+      const book: Book = { id: 2, title: "Updated", author: "Nathan" } as Book;
+      mockedHttpClient.put.mockResolvedValue({ data: book });
+
+      const result = await bookService.updateBook(book);
+
+      expect(mockedHttpClient.put).toHaveBeenCalledWith("/books/2", book);
+      expect(result).toEqual(book);
+    });
+
+    it("should handle errors", async () => {
+      mockedHttpClient.put.mockRejectedValue(new Error("update fail"));
+
+      await expect(bookService.updateBook({ id: 2, title: "Bad", author: "B" } as Book))
+        .rejects.toThrow("update fail");
+    });
+  });
+
+  describe("deleteBook", () => {
+    it("should call DELETE", async () => {
+      mockedHttpClient.delete.mockResolvedValue({});
+
+      await bookService.deleteBook(3);
+
+      expect(mockedHttpClient.delete).toHaveBeenCalledWith("/books/3");
+    });
+
+    it("should handle errors", async () => {
+      mockedHttpClient.delete.mockRejectedValue(new Error("delete fail"));
+
+      await expect(bookService.deleteBook(3)).rejects.toThrow("delete fail");
+    });
+  });
+
 });
