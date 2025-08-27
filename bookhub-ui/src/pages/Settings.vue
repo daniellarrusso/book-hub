@@ -4,7 +4,6 @@
 
     <el-form :model="settings" label-width="120px" :rules="rules" ref="formRef">
       
-      <!-- Avatar Upload -->
       <el-form-item label="Avatar" style="align-items: center;">
       <el-upload
         class="avatar-uploader"
@@ -18,17 +17,15 @@
       </el-upload>
       </el-form-item>
 
-      <!-- Name -->
+
       <el-form-item label="Name" prop="name">
         <el-input v-model="settings.name" placeholder="Enter your name" />
       </el-form-item>
 
-      <!-- Email -->
       <el-form-item label="Email" prop="email">
         <el-input v-model="settings.email" placeholder="Enter your email" />
       </el-form-item>
 
-      <!-- Notifications -->
       <el-form-item label="Notifications">
         <el-switch
           v-model="settings.notifications"
@@ -37,7 +34,6 @@
         />
       </el-form-item>
 
-      <!-- Buttons -->
       <el-form-item>
         <el-button @click="resetSettings">Reset</el-button>
         <el-button type="primary" @click="saveSettings">Save</el-button>
@@ -47,16 +43,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { ElMessage } from 'element-plus';
 import { Plus } from '@element-plus/icons-vue';
 import { useUserSettings } from '../composables/useUserSettings';
 
 
 const { settings, saveSettings, resetSettings } = useUserSettings()
-const formRef = ref<any>()
+const formRef = ref()
 
-// Validation rules
 const rules = {
   name: [{ required: true, message: 'Name is required', trigger: 'blur' }],
   email: [
@@ -65,16 +60,11 @@ const rules = {
   ]
 };
 
-
-
-// Save to localStorage whenever settings change
 watch(settings, (newSettings) => {
   localStorage.setItem('userSettings', JSON.stringify(newSettings));
 }, { deep: true });
 
-
-
-// Avatar upload handlers
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function handleAvatarChange(file: any) {
   const reader = new FileReader()
   reader.onload = (e) => {
@@ -82,7 +72,6 @@ function handleAvatarChange(file: any) {
   }
   reader.readAsDataURL(file.raw)
 }
-
 
 function beforeUpload(file: File) {
   const isImage = file.type.startsWith('image/')

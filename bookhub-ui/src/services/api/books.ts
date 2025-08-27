@@ -85,6 +85,7 @@ class BookService {
     this.error.value = null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private handleError(error: any): Error {
     if (error.response) {
       //  server response
