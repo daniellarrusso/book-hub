@@ -1,6 +1,6 @@
 <!-- GridToggle.vue -->
 <template>
-  <el-button-group>
+  <el-button-group style="display: flex; justify-content: end;">
     <el-button :type="!showGrid ? 'primary' : ''" :icon="List" @click="toggleGridView" />
     <el-button :type="showGrid ? 'primary' : ''" :icon="Grid" @click="toggleGridView" />
   </el-button-group>
