@@ -63,3 +63,9 @@ TestResults/
 .env
 .env.*
 node_modules
+
+
+## SQLite files
+*.db
+*.db-shm
+*.db-wal
