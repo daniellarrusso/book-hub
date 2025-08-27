@@ -8,9 +8,12 @@
 
     <el-container>
       <el-header style="display: flex; align-items: center; justify-content: space-between;">
-           <el-button text @click="drawer = true">
-            <el-icon style="margin-right: .5rem;"><IconMenu /></el-icon> Dashboard
+           <el-button class="mobile-only" text @click="drawer = true">
+            <el-icon style="margin-right: .5rem;"><IconMenu /></el-icon> Menu
           </el-button>
+          <div class="desktop-only">
+            {{ pageTitle }}
+          </div>
           <div class="user-avatar">
             <router-link to="/settings">
                 <img v-if="settings.avatar" alt="avatar" :src="settings.avatar" class="avatar" />
@@ -39,14 +42,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { Menu as IconMenu, UserFilled } from '@element-plus/icons-vue'
 import AsideMenu from './components/AsideMenu.vue';
 import { useUserSettings } from './composables/useUserSettings'
+import { useRoute } from 'vue-router';
+
+const route = useRoute()
 
 const drawer = ref(false);
 const { settings } = useUserSettings()
 const appName = 'BookHub'
+const pageTitle = computed(() => route.meta.title || route.name || '')
+
 </script>
 
 <style scoped>
@@ -67,6 +75,18 @@ const appName = 'BookHub'
     display: none;
   }
 }
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 .el-header {
   position: relative;
   background-color: #fff;
