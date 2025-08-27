@@ -46,7 +46,6 @@ async function fetchBook() {
   }
 
   try {
-    // assuming your service has a method getBookById
     book.value = await bookService.getBookById(id);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

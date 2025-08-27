@@ -16,7 +16,6 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-// Mock data: each book has your rating vs avg rating
 const books = [
   { title: "The Hobbit", yourRating: 4, avgRating: 4.5 },
   { title: "1984", yourRating: 5, avgRating: 4.2 },

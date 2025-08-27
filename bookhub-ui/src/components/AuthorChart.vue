@@ -18,7 +18,6 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-// Mock data: avg rating per author
 const authors = [
   { author: "J.R.R. Tolkien", yourAvg: 4, avgRating: 4.6 },
   { author: "George Orwell", yourAvg: 5, avgRating: 4.1 },
