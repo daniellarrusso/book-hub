@@ -3,7 +3,6 @@
 ## Table of Contents
 - [BookHub Project](#bookhub-project)
   - [Table of Contents](#table-of-contents)
-  - [Walkers](#walkers)
   - [Functional Requirements](#functional-requirements)
   - [Project Structure](#project-structure)
   - [Features](#features)
@@ -14,8 +13,6 @@
     - [2. Backend – `BookHub.App`](#2-backend--bookhubapp)
   - [Installation](#installation)
 
-## Walkers
-Project created as part of a take home assessment for WalkersGlobal Senior Frontend position.
 
 ## Functional Requirements
 Detailed requirements can be found in the pdf document in project [root](Walkers%20Technical%20Assessment%201.0%20-%20Full-Stack%20Developer.pdf).
@@ -28,7 +25,7 @@ Book-Hub/
 ├── bookhub-ui/        # Frontend (Vue.js)
 ├── BookHub.App/       # Backend Web API (ASP.NET Core)
 ├── BookHub.Core/      # Core domain models & business logic
-├── BookHub.Tests/     # Unit & integration tests
+├── BookHub.Tests/     # Unit tests
 ├── BookHub.sln        # Solution file
 ├── .gitignore
 └── README.md
