@@ -20,8 +20,6 @@ Project created as part of a take home assessment for WalkersGlobal Senior Front
 ## Functional Requirements
 Detailed requirements can be found in the pdf document in project [root](Walkers%20Technical%20Assessment%201.0%20-%20Full-Stack%20Developer.pdf).
 
-Got it 👍 — here’s a **lean, recruiter-friendly README snippet in Markdown** that you can copy straight into your `README.md`.
-
 ## Project Structure
 
 ```
