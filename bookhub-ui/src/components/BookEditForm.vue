@@ -102,9 +102,10 @@ function handleSave() {
   });
 
   function appendRandomImageUrl(min = 25, max = 100): string {
-    const { coverImageUrl } = localBook.value; 
-    if (!coverImageUrl) return '';
-    return coverImageUrl + Math.floor(Math.random() * (max - min + 1)) + min;
+    const { coverImageUrl, id } = localBook.value; 
+    if (id) return coverImageUrl!;
+
+    return coverImageUrl! + Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
 </script>
