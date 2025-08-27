@@ -100,7 +100,7 @@ Running Instructions for Vue 3 + .NET Backend
    → Opens at http://localhost:5173
 3. **Install Backend Dependencies and run**:
    ```bash
-   cd ../BookHub.App
+   cd BookHub.App
    dotnet restore
    dotnet run
    ```
