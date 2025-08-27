@@ -82,3 +82,5 @@ This document outlines some of the design decisions made during the project alon
 - **Accessibility:** Basic form validation is in place, but improvements such as ARIA labels and keyboard navigation support would make the app more inclusive. 
 - **Responsiveness:** The app adapts to smaller screens, but layouts could be refined further including CSS class reuse.  
 
+
+
