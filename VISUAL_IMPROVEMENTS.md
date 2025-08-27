@@ -61,6 +61,7 @@ This document outlines some of the design decisions made during the project alon
   - The Analytics page is currently a bit basic; there was potential form additional visualizations and interactivity to make it more insightful.
   - The main BookList component ended up handling quite a lot of logic (too smart), and a refactor would likely be beneficial to simplify it and improve maintainability.
   - It felt like there were further requirements to be understood around Note Status and the act of taing notes / comments. Potentially some sort of workflow scenario to move notes on to certain stages.
+  - Started to implement grid view design.
   - See next steps
 
 ---
@@ -73,6 +74,7 @@ This document outlines some of the design decisions made during the project alon
 - Consider a production-ready database backend.  
 - Further Unit and Integration and e2e testing 
 - Model: Split out Author into a separate table to allow selection or creation of authors.
+- Implement Grid View design
 
 ---
 
